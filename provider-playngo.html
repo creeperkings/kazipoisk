@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play’n GO — Kazipoisk</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Kazipoisk 🎰</a>
+  <nav id="nav-links"></nav>
+  <button class="burger" id="burger">☰</button>
+</header>
+
+<main>
+  <section class="hero">
+    <img src="https://www.hardrockdigital.com/wp-content/uploads/2024/11/playngo-512x403.jpg" alt="Play’n GO" class="detail-img">
+    <h1>Play’n GO</h1>
+    <p>Шведский гигант. Хиты: Book of Dead, Reactoonz, Moon Princess.</p>
+  </section>
+
+  <section class="cards-grid">
+    <div class="card">
+      <h2>Популярные слоты</h2>
+      <p>• Book of Dead — RTP ~96.2% (⚡ Средняя)</p>
+      <p>• Reactoonz — RTP ~96.5% (⚡ Высокая)</p>
+      <p>• Moon Princess — RTP ~96.5% (⚡ Средняя)</p>
+    </div>
+    <div class="card">
+      <h2>О провайдере</h2>
+      <p>Качественные релизы с мощной фан-базой, частые ивенты и поддержка мобильных устройств.</p>
+    </div>
+  </section>
+
+  <section class="comments">
+    <h2>💬 Отзывы о провайдере</h2>
+    <form class="comment-form">
+      <textarea placeholder="Напиши отзыв..." id="comment-input"></textarea>
+      <button type="button" class="btn" onclick="addComment('playngo')">Отправить</button>
+    </form>
+    <ul id="comments-list"></ul>
+  </section>
+</main>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => { renderComments('playngo'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetEnt — Kazipoisk</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Kazipoisk 🎰</a>
+  <nav id="nav-links"></nav>
+  <button class="burger" id="burger">☰</button>
+</header>
+
+<main>
+  <section class="hero">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSawfQxehl61P0iD8bb9CDklBIbKtEK5fuwRA&s" alt="NetEnt" class="detail-img">
+    <h1>NetEnt</h1>
+    <p>Легендарный шведский разработчик. Хиты: Starburst, Gonzo’s Quest, Dead or Alive.</p>
+  </section>
+
+  <section class="cards-grid">
+    <div class="card">
+      <h2>Популярные слоты</h2>
+      <p>• Starburst — RTP 96.1% (⚡ Низкая)</p>
+      <p>• Gonzo’s Quest — RTP 95.9% (⚡ Средняя)</p>
+      <p>• Dead or Alive — RTP 96.8% (⚡ Высокая)</p>
+    </div>
+    <div class="card">
+      <h2>О провайдере</h2>
+      <p>Культовые механики, качественные анимации и узнаваемый стиль с упором на стабильность.</p>
+    </div>
+  </section>
+
+  <section class="comments">
+    <h2>💬 Отзывы о провайдере</h2>
+    <form class="comment-form">
+      <textarea placeholder="Напиши отзыв..." id="comment-input"></textarea>
+      <button type="button" class="btn" onclick="addComment('netent')">Отправить</button>
+    </form>
+    <ul id="comments-list"></ul>
+  </section>
+</main>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => { renderComments('netent'); });
+</script>
+</body>
+</html>
