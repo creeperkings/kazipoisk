@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hacksaw Gaming — Kazipoisk</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Kazipoisk 🎰</a>
+  <nav id="nav-links"></nav>
+  <button class="burger" id="burger">☰</button>
+</header>
+
+<main>
+  <section class="hero">
+    <img src="https://www.racingpost.com/online-casino/static/providers/hacksaw-gaming/capa-review-hacksaw-gaming/capa-review-hacksaw-gaming.jpg?v=1742485612" alt="Hacksaw Gaming" class="detail-img">
+    <h1>Hacksaw Gaming</h1>
+    <p>Современный провайдер с хай-волатильными слотами и нестандартными механиками.</p>
+  </section>
+
+  <section class="cards-grid">
+    <div class="card">
+      <h2>Популярные слоты</h2>
+      <p>• Wanted Dead or a Wild — RTP ~96.4% (⚡ Очень высокая)</p>
+      <p>• Hand of Anubis — RTP ~96.2% (⚡ Высокая)</p>
+      <p>• Chaos Crew — RTP ~96.3% (⚡ Высокая)</p>
+    </div>
+    <div class="card">
+      <h2>О провайдере</h2>
+      <p>Агрессивные множители, быстрый темп игры и узнаваемая «инди» эстетика.</p>
+    </div>
+  </section>
+
+  <section class="comments">
+    <h2>💬 Отзывы о провайдере</h2>
+    <form class="comment-form">
+      <textarea placeholder="Напиши отзыв..." id="comment-input"></textarea>
+      <button type="button" class="btn" onclick="addComment('hacksaw')">Отправить</button>
+    </form>
+    <ul id="comments-list"></ul>
+  </section>
+</main>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => { renderComments('hacksaw'); });
+</script>
+</body>
+</html>

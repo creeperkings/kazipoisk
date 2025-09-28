@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pragmatic Play — Kazipoisk</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Kazipoisk 🎰</a>
+  <nav id="nav-links"></nav>
+  <button class="burger" id="burger">☰</button>
+</header>
+
+<main>
+  <section class="hero">
+    <img src="https://playgrounddiveshop.com/wp-content/uploads/2025/03/unnamed.png" alt="Pragmatic Play" class="detail-img">
+    <h1>Pragmatic Play</h1>
+    <p>Один из самых популярных провайдеров. Хиты: Sweet Bonanza, The Dog House, Gates of Olympus.</p>
+  </section>
+
+  <section class="cards-grid">
+    <div class="card">
+      <h2>Популярные слоты</h2>
+      <p>• Sweet Bonanza — RTP 96.5% (⚡ Высокая)</p>
+      <p>• The Dog House — RTP 96.6% (⚡ Высокая)</p>
+      <p>• Gates of Olympus — RTP 96.5% (⚡ Высокая)</p>
+    </div>
+    <div class="card">
+      <h2>О провайдере</h2>
+      <p>Сильная визуалка, частые релизы, много бонусных механик и турнирная поддержка.</p>
+    </div>
+  </section>
+
+  <section class="comments">
+    <h2>💬 Отзывы о провайдере</h2>
+    <form class="comment-form">
+      <textarea placeholder="Напиши отзыв..." id="comment-input"></textarea>
+      <button type="button" class="btn" onclick="addComment('pragmatic')">Отправить</button>
+    </form>
+    <ul id="comments-list"></ul>
+  </section>
+</main>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => { renderComments('pragmatic'); });
+</script>
+</body>
+</html>
