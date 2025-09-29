@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Слот — Kazipoisk</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slot — Kazipoisk</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
 <header>
@@ -15,15 +15,15 @@
 </header>
 
 <main>
-  <section class="hero" id="slot-details">
-    <!-- данные о слоте вставятся через JS -->
-  </section>
+  <section class="hero" id="slot-details"></section>
 
   <section class="comments">
-    <h2>💬 Отзывы игроков</h2>
+    <h2>💬 Reviews</h2>
+    <div id="avg-rating" class="avg-rating"></div>
     <form class="comment-form">
-      <textarea placeholder="Напиши отзыв..." id="comment-input"></textarea>
-      <button type="button" class="btn" id="comment-btn">Отправить</button>
+      <div class="stars-input" data-target="slot"></div>
+      <textarea placeholder="Add your comment..." id="comment-input"></textarea>
+      <button type="button" class="btn" id="comment-btn">Send</button>
     </form>
     <ul id="comments-list"></ul>
   </section>
