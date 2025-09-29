@@ -1,10 +1,10 @@
-// === USERS SYSTEM ===
-function getUsers(){ return JSON.parse(localStorage.getItem("users"))||[]; }
-function saveUsers(users){ localStorage.setItem("users", JSON.stringify(users)); }
-function getCurrentUser(){ return JSON.parse(localStorage.getItem("currentUser"))||null; }
-function setCurrentUser(user){ localStorage.setItem("currentUser", JSON.stringify(user)); }
 
-// REGISTER
+function getUsers(){ return JSON.parse(localStorage.getItem("users"))||[]; }
+function saveUsers(v){ localStorage.setItem("users", JSON.stringify(v)); }
+function getCurrentUser(){ return JSON.parse(localStorage.getItem("currentUser"))||null; }
+function setCurrentUser(u){ localStorage.setItem("currentUser", JSON.stringify(u)); }
+
+
 const regForm=document.getElementById("registerForm");
 if(regForm){
   regForm.addEventListener("submit",(e)=>{
@@ -12,14 +12,14 @@ if(regForm){
     const username=document.getElementById("reg-username").value.trim();
     const email=document.getElementById("reg-email").value.trim();
     const password=document.getElementById("reg-password").value;
-    let users=getUsers();
-    if(users.find(u=>u.email===email)){ alert("Такой email уже зарегистрирован!"); return; }
+    const users=getUsers();
+    if(users.find(u=>u.email===email)){ alert("Email already exists"); return; }
     users.push({username,email,password}); saveUsers(users);
-    alert("Регистрация успешна! Теперь войдите."); window.location.href="login.html";
+    alert("Registered! Now sign in."); location.href="login.html";
   });
 }
 
-// LOGIN
+
 const loginForm=document.getElementById("loginForm");
 if(loginForm){
   loginForm.addEventListener("submit",(e)=>{
@@ -27,280 +27,285 @@ if(loginForm){
     const email=document.getElementById("login-email").value.trim();
     const password=document.getElementById("login-password").value;
     const user=getUsers().find(u=>u.email===email && u.password===password);
-    if(!user){ alert("Неверный email или пароль!"); return; }
-    setCurrentUser(user);
-    alert(`Добро пожаловать, ${user.username}!`); window.location.href="index.html";
+    if(!user){ alert("Wrong email or password"); return; }
+    setCurrentUser(user); alert(`Welcome, ${user.username}!`); location.href="index.html";
   });
 }
 
-// NAVBAR (добавили ссылку на Опросы)
-const navLinks=document.getElementById("nav-links");
-if(navLinks){
-  const currentUser=getCurrentUser();
-  if(currentUser){
-    navLinks.innerHTML = `
-      <a href="slots.html">Слоты</a>
-      <a href="casinos.html">Казино</a>
-      <a href="providers.html">Провайдеры</a>
-      <a href="polls.html">Опросы</a>
-      <span class="user-label">👤 ${currentUser.username}</span>
-      <button class="btn btn-logout" id="logoutBtn">Выйти</button>
-    `;
-    document.getElementById("logoutBtn").addEventListener("click",()=>{localStorage.removeItem("currentUser"); location.reload();});
-  } else {
-    navLinks.innerHTML = `
-      <a href="index.html">Главная</a>
-      <a href="slots.html">Слоты</a>
-      <a href="casinos.html">Казино</a>
-      <a href="providers.html">Провайдеры</a>
-      <a href="polls.html">Опросы</a>
-      <a href="login.html">Вход</a>
-      <a href="register.html">Регистрация</a>
-    `;
+
+const nav=document.getElementById("nav-links");
+if(nav){
+  const u=getCurrentUser();
+  if(u){
+    nav.innerHTML=`
+      <a href="slots.html">Slots</a>
+      <a href="casinos.html">Casinos</a>
+      <a href="providers.html">Providers</a>
+      <a href="polls.html">Polls</a>
+      <a href="ratings.html">Ratings</a>
+      <span class="user-label" style="margin-left:12px;color:#ffcc00">👤 ${u.username}</span>
+      <button class="btn btn-logout" id="logoutBtn" style="margin-left:10px;">Logout</button>`;
+    document.getElementById("logoutBtn").addEventListener("click",()=>{ localStorage.removeItem("currentUser"); location.reload(); });
+  }else{
+    nav.innerHTML=`
+      <a href="index.html">Home</a>
+      <a href="slots.html">Slots</a>
+      <a href="casinos.html">Casinos</a>
+      <a href="providers.html">Providers</a>
+      <a href="polls.html">Polls</a>
+      <a href="ratings.html">Ratings</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>`;
   }
 }
 
-// === DATA (с твоими прямыми картинками) ===
+
+const burger=document.getElementById("burger");
+if(burger && nav){ burger.addEventListener("click",()=> nav.classList.toggle("active")); }
+
+
 const slotsData={
-  sweet:{ name:"Sweet Bonanza", provider:"Pragmatic Play", rtp:"96.5%", volatility:"Высокая",
-    description:"Красочный фруктовый слот с множителями и фриспинами.",
-    image:"https://ltdfoto.ru/images/2025/09/28/image54c787eebadae4a3.png"
-  },
-  bigbass:{ name:"Big Bass Halloween", provider:"Pragmatic Play", rtp:"96.7%", volatility:"Средняя",
-    description:"Хэллоуин-версия рыболовного слота.",
-    image:"https://aws.die-spielbank.de/sachsen/images/de/big-bass-halloween_die-spielbank_600x600.webp"
-  },
-  doghouse:{ name:"The Dog House", provider:"Pragmatic Play", rtp:"96.6%", volatility:"Высокая",
-    description:"Слот с липкими вайлдами и милыми пёсиками.",
-    image:"https://media.betmgm.co.uk/images/games/the-dog-house-megaways/the-dog-house-megaways-icon.jpg"
-  }
+  sweet:{ name:"Sweet Bonanza", provider:"Pragmatic Play", rtp:"96.5%", volatility:"High", maxwin:"21100x",
+    image:"https://ltdfoto.ru/images/2025/09/28/image54c787eebadae4a3.png" },
+  bigbass:{ name:"Big Bass Halloween", provider:"Pragmatic Play", rtp:"96.7%", volatility:"Medium", maxwin:"4000x",
+    image:"https://aws.die-spielbank.de/sachsen/images/de/big-bass-halloween_die-spielbank_600x600.webp" },
+  doghouse:{ name:"The Dog House", provider:"Pragmatic Play", rtp:"96.6%", volatility:"High", maxwin:"6750x",
+    image:"https://media.betmgm.co.uk/images/games/the-dog-house-megaways/the-dog-house-megaways-icon.jpg" }
 };
 
 const casinosData={
-  vavada:{ name:"Vavada", rating:"4.4 / 5",
-    description:"Популярное казино СНГ. Быстрые выплаты, турниры, широкий выбор провайдеров.",
-    image:"https://s3-eu-west-1.amazonaws.com/tpd/logos/60a3900b09cef7000135b385/0x0.png"
-  },
-  mostbet:{ name:"Mostbet", rating:"3.9 / 5",
-    description:"Казино и букмекерская. Частые акции, отзывы спорные.",
-    image:"https://afsckyiv.com/wp-content/uploads/2022/08/mostbet.jpeg"
-  },
-  "1xbet":{ name:"1xBET", rating:"4.2 / 5",
-    description:"Известное казино с огромным выбором игр, бонусами и кэшаутами.",
-    image:"https://casinobox24.com/wp-content/uploads/2024/12/1XBet.png"
-  }
+  vavada:{ name:"Vavada", reputation:"4.4 / 5",
+    image:"https://s3-eu-west-1.amazonaws.com/tpd/logos/60a3900b09cef7000135b385/0x0.png" },
+  mostbet:{ name:"Mostbet", reputation:"3.9 / 5",
+    image:"https://afsckyiv.com/wp-content/uploads/2022/08/mostbet.jpeg" },
+  "1xbet":{ name:"1xBET", reputation:"4.2 / 5",
+    image:"https://casinobox24.com/wp-content/uploads/2024/12/1XBet.png" }
 };
 
 const providersData={
-  pragmatic:{
-    name:"Pragmatic Play",
-    image:"https://playgrounddiveshop.com/wp-content/uploads/2025/03/unnamed.png"
-  },
-  netent:{
-    name:"NetEnt",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSawfQxehl61P0iD8bb9CDklBIbKtEK5fuwRA&s"
-  },
-  hacksaw:{
-    name:"Hacksaw Gaming",
-    image:"https://www.racingpost.com/online-casino/static/providers/hacksaw-gaming/capa-review-hacksaw-gaming/capa-review-hacksaw-gaming.jpg?v=1742485612"
-  },
-  playngo:{
-    name:"Play’n GO",
-    image:"https://www.hardrockdigital.com/wp-content/uploads/2024/11/playngo-512x403.jpg"
-  }
+  pragmatic:{ name:"Pragmatic Play", image:"https://playgrounddiveshop.com/wp-content/uploads/2025/03/unnamed.png" },
+  netent:{ name:"NetEnt", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSawfQxehl61P0iD8bb9CDklBIbKtEK5fuwRA&s" },
+  hacksaw:{ name:"Hacksaw Gaming", image:"https://www.racingpost.com/online-casino/static/providers/hacksaw-gaming/capa-review-hacksaw-gaming/capa-review-hacksaw-gaming.jpg?v=1742485612" },
+  playngo:{ name:"Play’n GO", image:"https://www.hardrockdigital.com/wp-content/uploads/2024/11/playngo-512x403.jpg" }
 };
 
 
-// === COMMENTS ===
-function addComment(id){
-  const currentUser=getCurrentUser();
-  if(!currentUser){ alert("Только авторизованные пользователи могут оставлять отзывы!"); return; }
-  const input=document.querySelector(".comment-form textarea");
-  if(!input) return;
-  const text=input.value.trim(); if(!text) return;
-  let comments=JSON.parse(localStorage.getItem(`comments-${id}`))||[];
-  comments.push({user:currentUser.username, text}); localStorage.setItem(`comments-${id}`, JSON.stringify(comments));
-  renderComments(id); input.value="";
+function getItemRatings(id){ return JSON.parse(localStorage.getItem(`ratings-${id}`))||[]; }
+function saveItemRatings(id, arr){ localStorage.setItem(`ratings-${id}`, JSON.stringify(arr)); }
+
+function renderAvg(id){
+  const mount=document.getElementById("avg-rating");
+  if(!mount) return;
+  const list=getItemRatings(id);
+  if(list.length===0){ mount.innerHTML="No reviews yet."; return; }
+  const avg=(list.reduce((s,r)=>s+Number(r.stars),0)/list.length).toFixed(1);
+  mount.innerHTML=`Average: ${renderStarsInline(avg)} <span style="color:#888">(${avg}/5, ${list.length})</span>`;
 }
-function renderComments(id){
-  const list=document.getElementById("comments-list"); if(!list) return;
-  list.innerHTML=""; (JSON.parse(localStorage.getItem(`comments-${id}`))||[]).forEach(c=>{
-    const li=document.createElement("li"); li.innerHTML=`<b>${c.user}</b>: ${c.text}`; list.appendChild(li);
+
+function renderStarsInline(value){
+
+  const rounded=Math.round(value);
+  let s="";
+  for(let i=1;i<=5;i++){ s+= i<=rounded ? "★" : "☆"; }
+  return `<span style="color:#ffcc00">${s}</span>`;
+}
+
+function mountStarsInput(container){
+  if(!container) return;
+  container.innerHTML = `
+    <div class="rate-stars" data-value="0">
+      <span class="star" data-star="1">☆</span>
+      <span class="star" data-star="2">☆</span>
+      <span class="star" data-star="3">☆</span>
+      <span class="star" data-star="4">☆</span>
+      <span class="star" data-star="5">☆</span>
+    </div>`;
+  const stars=[...container.querySelectorAll(".star")];
+  stars.forEach(st=>{
+    st.addEventListener("mouseenter",()=>paint(stars,Number(st.dataset.star)));
+    st.addEventListener("mouseleave",()=>paint(stars,Number(container.querySelector(".rate-stars").dataset.value)));
+    st.addEventListener("click",()=>{
+      const val=Number(st.dataset.star);
+      container.querySelector(".rate-stars").dataset.value=val;
+      paint(stars,val);
+    });
+  });
+  function paint(stars,val){ stars.forEach((s,i)=>{ s.textContent = (i+1)<=val ? "★" : "☆"; s.classList.toggle("filled",(i+1)<=val); }); }
+}
+
+function addReview(id){
+  const user=getCurrentUser();
+  if(!user){ alert("Login to post a review."); return; }
+  const root=document.querySelector(".stars-input .rate-stars");
+  const starsValue = root ? Number(root.dataset.value) : 0;
+  if(!starsValue){ alert("Choose star rating (1–5)."); return; }
+  const text=document.getElementById("comment-input").value.trim();
+  const list=getItemRatings(id);
+  list.push({ user:user.username, stars:starsValue, text, ts:Date.now() });
+  saveItemRatings(id,list);
+  document.getElementById("comment-input").value="";
+  renderReviews(id);
+  renderAvg(id);
+}
+
+function renderReviews(id){
+  const ul=document.getElementById("comments-list"); if(!ul) return;
+  const list=getItemRatings(id);
+  ul.innerHTML="";
+  list.slice().reverse().forEach(r=>{
+    const li=document.createElement("li");
+    li.innerHTML = `<div>${renderStarsInline(r.stars)} — <b>${r.user}</b></div>${r.text?`<div style="margin-top:4px;">${r.text}</div>`:""}`;
+    ul.appendChild(li);
   });
 }
 
-// === DETAILS: SLOT ===
-const slotContainer=document.getElementById("slot-details");
-if(slotContainer){
-  const id=new URLSearchParams(location.search).get("id"); const slot=slotsData[id];
+
+const slotBox=document.getElementById("slot-details");
+if(slotBox){
+  const id=new URLSearchParams(location.search).get("id");
+  const slot=slotsData[id];
   if(slot){
-    slotContainer.innerHTML=`
+    slotBox.innerHTML=`
       <img src="${slot.image}" alt="${slot.name}" class="detail-img">
       <h1>${slot.name}</h1>
-      <p><b>Провайдер:</b> ${slot.provider}</p>
-      <p>🎯 RTP: ${slot.rtp}</p>
-      <p>⚡ Волатильность: ${slot.volatility}</p>
-      <p>${slot.description}</p>`;
-    document.getElementById("comment-btn")?.addEventListener("click",()=>addComment(id));
-    renderComments(id);
+      <p><b>Provider:</b> ${slot.provider}</p>
+      <p>🎯 <b>RTP:</b> ${slot.rtp}</p>
+      <p>⚡ <b>Volatility:</b> ${slot.volatility}</p>
+      <p>💰 <b>Max win:</b> ${slot.maxwin}</p>
+    `;
+    mountStarsInput(document.querySelector(".stars-input"));
+    document.getElementById("comment-btn").addEventListener("click",()=>addReview(id));
+    renderAvg(id); renderReviews(id);
   }
 }
 
-// === DETAILS: CASINO ===
-const casinoContainer=document.getElementById("casino-details");
-if(casinoContainer){
-  const id=new URLSearchParams(location.search).get("id"); const casino=casinosData[id];
-  if(casino){
-    casinoContainer.innerHTML=`
-      <img src="${casino.image}" alt="${casino.name}" class="detail-img">
-      <h1>${casino.name}</h1>
-      <p>⭐ Репутация: ${casino.rating}</p>
-      <p>${casino.description}</p>`;
-    document.getElementById("comment-btn")?.addEventListener("click",()=>addComment(id));
-    renderComments(id);
+const casinoBox=document.getElementById("casino-details");
+if(casinoBox){
+  const id=new URLSearchParams(location.search).get("id");
+  const c=casinosData[id];
+  if(c){
+    casinoBox.innerHTML=`
+      <img src="${c.image}" alt="${c.name}" class="detail-img">
+      <h1>${c.name}</h1>
+      <p>⭐ <b>Reputation:</b> ${c.reputation}</p>
+    `;
+    mountStarsInput(document.querySelector(".stars-input"));
+    document.getElementById("comment-btn").addEventListener("click",()=>addReview(id));
+    renderAvg(id); renderReviews(id);
   }
 }
 
-/* =========================
-   POLLS (ОПРОСЫ)
-   - 1 голос в категории в месяц (для гостя — тоже, хранится отдельно)
-   - категории: slots / casinos / providers
-========================= */
+
 const POLL_MONTH = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`; })();
-
 function _userKey(){ const u=getCurrentUser(); return u? u.email : "anon"; }
-
-function _getUserPolls(){
-  return JSON.parse(localStorage.getItem("userPolls"))||{};
-}
-function _setUserPolls(obj){
-  localStorage.setItem("userPolls", JSON.stringify(obj));
-}
-function hasUserVoted(category){
-  const up=_getUserPolls(); const key=_userKey();
-  return up[POLL_MONTH]?.[key]?.[category]===true;
-}
-function markUserVoted(category){
-  const up=_getUserPolls(); const key=_userKey();
-  if(!up[POLL_MONTH]) up[POLL_MONTH]={};
-  if(!up[POLL_MONTH][key]) up[POLL_MONTH][key]={};
-  up[POLL_MONTH][key][category]=true; _setUserPolls(up);
-}
-
-function getPollResults(category){
-  return JSON.parse(localStorage.getItem(`poll-${category}-${POLL_MONTH}`)) || {};
-}
-function savePollResults(category, results){
-  localStorage.setItem(`poll-${category}-${POLL_MONTH}`, JSON.stringify(results));
-}
-
-function vote(category, id){
-  if(hasUserVoted(category)){ alert("Ты уже голосовал(а) в этой категории в этом месяце."); return; }
-  const res=getPollResults(category); res[id]=(res[id]||0)+1; savePollResults(category, res); markUserVoted(category);
-  renderPoll(category);
-}
-
-function _itemsForCategory(category){
-  if(category==="slots") return Object.entries(slotsData).map(([id,v])=>({id,name:v.name,image:v.image}));
-  if(category==="casinos") return Object.entries(casinosData).map(([id,v])=>({id,name:v.name,image:v.image}));
-  if(category==="providers") return Object.entries(providersData).map(([id,v])=>({id,name:v.name,image:v.image}));
+function _getUserPolls(){ return JSON.parse(localStorage.getItem("userPolls"))||{}; }
+function _setUserPolls(o){ localStorage.setItem("userPolls", JSON.stringify(o)); }
+function hasUserVoted(cat){ const up=_getUserPolls(); const k=_userKey(); return up[POLL_MONTH]?.[k]?.[cat]===true; }
+function markUserVoted(cat){ const up=_getUserPolls(); const k=_userKey(); if(!up[POLL_MONTH]) up[POLL_MONTH]={}; if(!up[POLL_MONTH][k]) up[POLL_MONTH][k]={}; up[POLL_MONTH][k][cat]=true; _setUserPolls(up); }
+function getPollResults(cat){ return JSON.parse(localStorage.getItem(`poll-${cat}-${POLL_MONTH}`))||{}; }
+function savePollResults(cat,res){ localStorage.setItem(`poll-${cat}-${POLL_MONTH}`, JSON.stringify(res)); }
+function _itemsForCategory(cat){
+  if(cat==="slots") return Object.entries(slotsData).map(([id,v])=>({id,name:v.name,image:v.image}));
+  if(cat==="casinos") return Object.entries(casinosData).map(([id,v])=>({id,name:v.name,image:v.image}));
+  if(cat==="providers") return Object.entries(providersData).map(([id,v])=>({id,name:v.name,image:v.image}));
   return [];
 }
-
-function renderPoll(category){
-  const mountPoint=document.getElementById(`poll-${category}`); if(!mountPoint) return;
-  const items=_itemsForCategory(category);
-  const results=getPollResults(category); const total=Object.values(results).reduce((a,b)=>a+b,0);
-
-  const voted = hasUserVoted(category);
-
-  // OPTIONS
-  let optionsHTML = `<div class="poll-list">`;
+function vote(cat,id){
+  if(hasUserVoted(cat)){ alert("Already voted this month."); return; }
+  const res=getPollResults(cat); res[id]=(res[id]||0)+1; savePollResults(cat,res); markUserVoted(cat); renderPoll(cat);
+}
+function renderPoll(cat){
+  const el=document.getElementById(`poll-${cat}`); if(!el) return;
+  const items=_itemsForCategory(cat);
+  const res=getPollResults(cat); const total=Object.values(res).reduce((a,b)=>a+b,0);
+  const voted=hasUserVoted(cat);
+  let options=`<div class="poll-list">`;
   items.forEach(it=>{
-    optionsHTML += `
-      <label class="poll-option">
-        <input type="radio" name="opt-${category}" value="${it.id}" ${voted?"disabled":""}>
-        <img src="${it.image}" alt="${it.name}">
-        <span>${it.name}</span>
-      </label>`;
+    options+=`<label class="poll-option"><input type="radio" name="opt-${cat}" value="${it.id}" ${voted?"disabled":""}>
+      <img src="${it.image}" alt="${it.name}"><span>${it.name}</span></label>`;
   });
-  optionsHTML += `</div>`;
-
-  const actionHTML = voted
-    ? `<div class="poll-note">✅ Твой голос учтён на этот месяц.</div>`
-    : `<div class="poll-actions"><button class="btn" id="btn-${category}">Голосовать</button></div>
-       <div class="poll-note">Можно отдать только один голос в этой категории за ${POLL_MONTH}.</div>`;
-
-  // RESULTS
-  let resultsHTML = `<div class="poll-results">`;
+  options+=`</div>`;
+  const action = voted ? `<div class="poll-note">✅ Your vote is counted for ${POLL_MONTH}.</div>`
+    : `<div class="poll-actions"><button class="btn" id="btn-${cat}">Vote</button></div>
+       <div class="poll-note">One vote in this category for ${POLL_MONTH}.</div>`;
+  let resultHTML=`<div class="poll-results">`;
   items.forEach(it=>{
-    const count = results[it.id]||0;
-    const pct = total>0 ? Math.round(count*100/total) : 0;
-    resultsHTML += `
-      <div class="progress-row">
-        <div class="name">${it.name}</div>
-        <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
-        <div class="val">${pct}% (${count})</div>
-      </div>`;
+    const c=res[it.id]||0; const pct= total>0 ? Math.round(c*100/total):0;
+    resultHTML+=`<div class="progress-row"><div class="name">${it.name}</div>
+      <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div class="val">${pct}% (${c})</div></div>`;
   });
-  resultsHTML += `</div>`;
+  resultHTML+=`</div>`;
+  el.innerHTML=options+action+resultHTML;
+  if(!voted){ document.getElementById(`btn-${cat}`).addEventListener("click",()=>{ const ch=document.querySelector(`input[name="opt-${cat}"]:checked`); if(!ch){alert("Choose option"); return;} vote(cat,ch.value); }); }
+}
+window.addEventListener("DOMContentLoaded",()=>["slots","casinos","providers"].forEach(renderPoll));
 
-  mountPoint.innerHTML = optionsHTML + actionHTML + resultsHTML;
 
-  if(!voted){
-    document.getElementById(`btn-${category}`)?.addEventListener("click", ()=>{
-      const chosen = document.querySelector(`input[name="opt-${category}"]:checked`);
-      if(!chosen){ alert("Выбери вариант."); return; }
-      vote(category, chosen.value);
-    });
-  }
+function renderWinners(){
+  const c=document.getElementById("winners"); if(!c) return;
+  const cats=["slots","casinos","providers"]; let html="";
+  cats.forEach(cat=>{
+    const res=getPollResults(cat);
+    if(Object.keys(res).length===0) return;
+    const winnerId=Object.entries(res).sort((a,b)=>b[1]-a[1])[0][0];
+    let w;
+    if(cat==="slots") w=slotsData[winnerId];
+    if(cat==="casinos") w=casinosData[winnerId];
+    if(cat==="providers") w=providersData[winnerId];
+    if(!w) return;
+    html+=`<div class="card"><h3>${cat==="slots"?"Best slot":cat==="casinos"?"Best casino":"Best provider"}</h3>
+      <img src="${w.image}" alt="${w.name}"><h2>${w.name}</h2></div>`;
+  });
+  c.innerHTML = html || "<p>No votes yet. Go to <b>Polls</b> and vote!</p>";
+}
+window.addEventListener("DOMContentLoaded",renderWinners);
+
+
+function userKey(){ const u=getCurrentUser(); return u? u.email : "anon"; }
+function setStarVote(slotId, stars){ localStorage.setItem(`rate-slot-${slotId}-${userKey()}`, String(stars)); }
+function getStarVote(slotId){ return Number(localStorage.getItem(`rate-slot-${slotId}-${userKey()}`)||0); }
+
+
+function getSlotStarAverage(slotId){
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith(`rate-slot-${slotId}-`));
+  if(keys.length===0) return {avg:0,count:0};
+  const vals=keys.map(k=>Number(localStorage.getItem(k)||0)).filter(v=>v>0);
+  const count=vals.length; const avg = count? (vals.reduce((a,b)=>a+b,0)/count) : 0;
+  return {avg, count};
 }
 
-// Авто-рендер на странице опросов
-window.addEventListener("DOMContentLoaded", ()=>{
-  ["slots","casinos","providers"].forEach(renderPoll);
-});
-// === TOP WINNERS OF MONTH ===
-function renderWinners() {
-  const container = document.getElementById("winners");
-  if (!container) return;
-
-  const categories = ["slots", "casinos", "providers"];
-  let html = "";
-
-  categories.forEach(cat => {
-    const results = getPollResults(cat);
-    if (!results || Object.keys(results).length === 0) return;
-
-    // Определяем победителя
-    const winnerId = Object.entries(results).sort((a, b) => b[1] - a[1])[0][0];
-    let winner;
-
-    if (cat === "slots") winner = slotsData[winnerId];
-    if (cat === "casinos") winner = casinosData[winnerId];
-    if (cat === "providers") winner = providersData[winnerId];
-
-    if (!winner) return;
-
-    html += `
-      <div class="card">
-        <h3>${cat === "slots" ? "Лучший слот" : cat === "casinos" ? "Лучшее казино" : "Лучший провайдер"}</h3>
-        <img src="${winner.image}" alt="${winner.name}">
-        <h2>${winner.name}</h2>
+function renderRatingsPage(){
+  const mount=document.getElementById("rate-slots"); if(!mount) return;
+  let html="";
+  Object.entries(slotsData).forEach(([id,v])=>{
+    const {avg,count}=getSlotStarAverage(id);
+    const my=getStarVote(id);
+    html+=`<div class="rating-box">
+      <img src="${v.image}" alt="${v.name}" class="detail-img">
+      <h2>${v.name}</h2>
+      <div class="rate-stars" data-id="${id}" data-value="${my}">
+        ${[1,2,3,4,5].map(n=>`<span class="star ${my>=n?"filled":""}" data-star="${n}">${my>=n?"★":"☆"}</span>`).join("")}
       </div>
-    `;
+      <div class="avg-rating">Average: ${renderStarsInline(avg)} <span style="color:#888">(${avg.toFixed(1)}/5, ${count})</span></div>
+    </div>`;
   });
+  mount.innerHTML=html;
 
-  container.innerHTML = html || "<p>Пока нет данных. Проголосуй на странице «Опросы»!</p>";
-}
 
-window.addEventListener("DOMContentLoaded", renderWinners);
-// === BURGER MENU ===
-const burger = document.getElementById("burger");
-const nav = document.getElementById("nav-links");
-
-if (burger && nav) {
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("active");
+  [...document.querySelectorAll(".rating-box .star")].forEach(st=>{
+    st.addEventListener("mouseenter",()=>{
+      const wrap=st.closest(".rate-stars"); const stars=[...wrap.querySelectorAll(".star")]; const val=Number(st.dataset.star);
+      stars.forEach((s,i)=>{ s.textContent=(i+1)<=val?"★":"☆"; s.classList.toggle("filled",(i+1)<=val); });
+    });
+    st.addEventListener("mouseleave",()=>{
+      const wrap=st.closest(".rate-stars"); const stars=[...wrap.querySelectorAll(".star")]; const saved=Number(wrap.dataset.value||0);
+      stars.forEach((s,i)=>{ s.textContent=(i+1)<=saved?"★":"☆"; s.classList.toggle("filled",(i+1)<=saved); });
+    });
+    st.addEventListener("click",()=>{
+      const wrap=st.closest(".rate-stars"); const id=wrap.dataset.id; const val=Number(st.dataset.star);
+      wrap.dataset.value=val; setStarVote(id,val); renderRatingsPage(); // перерисуем среднее
+    });
   });
 }
+window.addEventListener("DOMContentLoaded",renderRatingsPage);
